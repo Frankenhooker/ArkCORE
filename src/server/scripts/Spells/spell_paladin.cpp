@@ -578,16 +578,16 @@ public:
             return true;
         }
 
-		void Unload ()
-		{
-			GetCaster()->SetPower(POWER_HOLY_POWER, 0);
-		}
+        void Unload ()
+        {
+            GetCaster()->SetPower(POWER_HOLY_POWER, 0);
+        }
 
         void ChangeHeal (SpellEffIndex /*effIndex*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();
-			uint32 totalheal = GetHitHeal();
+            uint32 totalheal = GetHitHeal();
 
             if (!target)
                 return;
@@ -599,23 +599,23 @@ public:
             {
                 totalheal *= 3;
                
-				SetHitHeal(totalheal);
+                SetHitHeal(totalheal);
                 
-				return;
+                return;
             }
 
             switch (caster->GetPower(POWER_HOLY_POWER))
             {
-				case 1:          // 2 Holy Power
-				{
-					totalheal *= 2;
-					break;
-				}
-				case 2:          // 3 Holy Power
-				{
-					totalheal *= 3;
-					break;
-				}
+                case 1:          // 2 Holy Power
+                {
+                    totalheal *= 2;
+                    break;
+                }
+                case 2:          // 3 Holy Power
+                {
+                    totalheal *= 3;
+                    break;
+                }
             }
             SetHitHeal(totalheal);
         }

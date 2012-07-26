@@ -6989,7 +6989,7 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
                         basepoints0 = damage;
                         triggered_spell_id = 53652;
                         target = beaconTarget;
-						pVictim->CastCustomSpell(target, 53652, &basepoints0, 0, 0, true, 0, triggeredByAura, pVictim->GetGUID());
+                        pVictim->CastCustomSpell(target, 53652, &basepoints0, 0, 0, true, 0, triggeredByAura, pVictim->GetGUID());
                         return true;
                     }
                 }
@@ -7894,10 +7894,10 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
             return true;
         }
 		// Focused Insight
-		case 77796:
-		case 77795:
-		case 77794:
-		{
+        case 77796:
+        case 77795:
+        case 77794:
+        {
             if (!procSpell)
                 return false;
 
@@ -7907,7 +7907,7 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
 
             CastCustomSpell(pVictim, 77800, &mana, &effect, &effect, true, 0, 0, GetGUID());
             return true;
-		}
+        }
         // Tidal Waves
         case 51562:
         case 51563:
