@@ -564,17 +564,11 @@ public:
 class spell_pal_light_of_dawn: public SpellScriptLoader
 {
 public:
-    spell_pal_light_of_dawn () :
-            SpellScriptLoader("spell_pal_light_of_dawn")
-    {
-    }
+    spell_pal_light_of_dawn () : SpellScriptLoader("spell_pal_light_of_dawn") {}
 
     class spell_pal_light_of_dawn_SpellScript: public SpellScript
     {
-        PrepareSpellScript(spell_pal_light_of_dawn_SpellScript)
-        ;
-
-        uint32 totalheal;
+        PrepareSpellScript(spell_pal_light_of_dawn_SpellScript);
 
         bool Load ()
         {
@@ -584,10 +578,16 @@ public:
             return true;
         }
 
+		void Unload ()
+		{
+			GetCaster()->SetPower(POWER_HOLY_POWER, 0);
+		}
+
         void ChangeHeal (SpellEffIndex /*effIndex*/)
         {
             Unit* caster = GetCaster();
             Unit* target = GetHitUnit();
+			uint32 totalheal = GetHitHeal();
 
             if (!target)
                 return;
@@ -595,26 +595,29 @@ public:
             if (target == caster)
                 return;
 
+            if (caster->HasAura(SPELL_DIVINE_PURPOSE_PROC))
+            {
+                totalheal *= 3;
+               
+				SetHitHeal(totalheal);
+                
+				return;
+            }
+
             switch (caster->GetPower(POWER_HOLY_POWER))
             {
-            case 0:          // 1 Holy Power
-            {
-                totalheal = GetHitHeal();
-                break;
-            }
-            case 1:          // 2 Holy Power
-            {
-                totalheal = GetHitHeal() * 2;
-                break;
-            }
-            case 2:          // 3 Holy Power
-            {
-                totalheal = GetHitHeal() * 3;
-                break;
-            }
+				case 1:          // 2 Holy Power
+				{
+					totalheal *= 2;
+					break;
+				}
+				case 2:          // 3 Holy Power
+				{
+					totalheal *= 3;
+					break;
+				}
             }
             SetHitHeal(totalheal);
-            caster->SetPower(POWER_HOLY_POWER, 0);
         }
 
         void Register ()
