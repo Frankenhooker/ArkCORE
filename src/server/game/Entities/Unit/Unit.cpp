@@ -7892,6 +7892,21 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
 
             return true;
         }
+		// Focused Insight
+		case 77796:
+		case 77795:
+		case 77794:
+		{
+            if (!procSpell)
+                return false;
+
+            int32 manacost = (procSpell->ManaCostPercentage * GetCreateMana() / 100);
+            int32 mana = -(manacost * SpellMgr::CalculateSpellEffectAmount(dummySpell, EFFECT_0)) / 100;
+            int32 effect = SpellMgr::CalculateSpellEffectAmount(dummySpell, EFFECT_1);
+
+            CastCustomSpell(pVictim, 77800, &mana, &effect, &effect, true, 0, 0, GetGUID());
+            return true;
+		}
         // Tidal Waves
         case 51562:
         case 51563:
@@ -7913,19 +7928,6 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
             int32 bp0 = damage * pct / 100;
 
             CastCustomSpell(pVictim, 82987, &bp0, NULL, NULL, true, 0, 0, GetGUID());
-            return true;
-        }
-        // Focused Insight
-        if (dummySpell->SpellIconID == 4674)
-        {
-            if (!procSpell)
-                return false;
-
-            int32 manacost = (procSpell->ManaCostPercentage * GetCreateMana() / 100);
-            int32 mana = -(manacost * SpellMgr::CalculateSpellEffectAmount(dummySpell, EFFECT_0)) / 100;
-            int32 effect = SpellMgr::CalculateSpellEffectAmount(dummySpell, EFFECT_1);
-
-            CastCustomSpell(pVictim, 77800, &mana, &effect, &effect, true, 0, 0, GetGUID());
             return true;
         }
         // Static Shock
