@@ -415,6 +415,59 @@ public:
     }
 };
 
+class spell_rog_backstab: public SpellScriptLoader
+{
+public:
+    spell_rog_backstab () :
+            SpellScriptLoader("spell_rog_backstab")
+    {
+    }
+
+    class spell_rog_backstab_SpellScript: public SpellScript
+    {
+        PrepareSpellScript(spell_rog_backstab_SpellScript)
+
+        bool addEnergy;
+
+        void HandleBeforeHit()
+        {
+            if (GetHitUnit()->GetHealthPct()<35)
+                addEnergy = true;
+            else
+                addEnergy = false;
+        }
+
+        void HandleAfterHit ()
+        {
+            if (!addEnergy)
+                return;
+
+            Player * player = GetCaster()->ToPlayer();
+            int32 energy = 0;
+
+            if (player->GetAura(14158))
+                energy=15;
+            if (player->GetAura(14159))
+                energy=30;
+
+            player->CastCustomSpell(player, 79132, &energy, NULL, NULL, true, NULL, NULL, player->GetGUID());
+        }
+
+        void Register ()
+        {
+            BeforeHit += SpellHitFn(spell_rog_backstab_SpellScript::HandleBeforeHit);
+            AfterHit += SpellHitFn(spell_rog_backstab_SpellScript::HandleAfterHit);
+        }
+    };
+
+    SpellScript * GetSpellScript () const
+    {
+        return new spell_rog_backstab_SpellScript();
+    }
+};
+
+
+
 void AddSC_rogue_spell_scripts ()
 {
     new spell_rog_cheat_death();
@@ -423,4 +476,5 @@ void AddSC_rogue_spell_scripts ()
     new spell_rog_prey_on_the_weak();
     new spell_rog_shiv();
     new spell_rog_deadly_poison();
+    new spell_rog_backstab();
 }
