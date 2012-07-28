@@ -7894,9 +7894,7 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
             return true;
         }
 		// Focused Insight
-        case 77796:
-        case 77795:
-        case 77794:
+        if (dummySpell->SpellIconID==4674)
         {
             if (!procSpell)
                 return false;
@@ -7906,12 +7904,10 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
             int32 effect = SpellMgr::CalculateSpellEffectAmount(dummySpell, EFFECT_1);
 
             CastCustomSpell(pVictim, 77800, &mana, &effect, &effect, true, 0, 0, GetGUID());
-            return true;
+            break;
         }
         // Tidal Waves
-        case 51562:
-        case 51563:
-        case 51564:
+        if (dummySpell->SpellIconID==3057)
         {
             CustomSpellValues values;
             values.AddSpellMod(SPELLVALUE_BASE_POINT0, -(dummySpell->EffectBasePoints[0]));
