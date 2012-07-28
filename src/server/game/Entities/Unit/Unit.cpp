@@ -7904,7 +7904,7 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
             int32 effect = SpellMgr::CalculateSpellEffectAmount(dummySpell, EFFECT_1);
 
             CastCustomSpell(pVictim, 77800, &mana, &effect, &effect, true, 0, 0, GetGUID());
-            break;
+            return true;
         }
         // Tidal Waves
         if (dummySpell->SpellIconID==3057)
@@ -7913,7 +7913,7 @@ bool Unit::HandleDummyAuraProc (Unit *pVictim, uint32 damage, AuraEffect* trigge
             values.AddSpellMod(SPELLVALUE_BASE_POINT0, -(dummySpell->EffectBasePoints[0]));
             values.AddSpellMod(SPELLVALUE_BASE_POINT1, dummySpell->EffectBasePoints[0]);
             CastCustomSpell(53390, values, this);
-            break;
+            return true;
         }
         // Telluric Currents
         if (dummySpell->SpellIconID == 320)
