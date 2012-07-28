@@ -431,6 +431,7 @@ public:
 
         void HandleBeforeHit()
         {
+            // Health check for Murderous Intent
             if (GetHitUnit()->GetHealthPct()<35)
                 addEnergy = true;
             else
@@ -445,11 +446,14 @@ public:
             Player * player = GetCaster()->ToPlayer();
             int32 energy = 0;
 
+            //  Murderous Intent Rank 1
             if (player->GetAura(14158))
                 energy=15;
+            //  Murderous Intent Rank 2
             if (player->GetAura(14159))
                 energy=30;
 
+            // Cast Murderous Intent with 'energy' as restored energy value.
             player->CastCustomSpell(player, 79132, &energy, NULL, NULL, true, NULL, NULL, player->GetGUID());
         }
 
