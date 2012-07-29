@@ -562,7 +562,9 @@ public:
             Unit* target = GetHitUnit();
             uint32 totalheal = GetHitHeal();
 
-            if (target == caster || !target)
+            if (!target)
+                return;
+            if (target == caster)
                 return;
 
             if (caster->HasAura(SPELL_DIVINE_PURPOSE_PROC))
