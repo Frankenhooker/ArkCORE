@@ -1098,6 +1098,9 @@ bool ChatHandler::HandleAddItemCommand (const char *args)
     if (noSpaceForCount > 0)
         PSendSysMessage(LANG_ITEM_CANNOT_CREATE, itemId, noSpaceForCount);
 
+    PSendSysMessage(GetArkCoreString(LANG_ADDITEM), itemId, count);
+    PSendSysMessage(LANG_ITEM_LIST_CHAT, itemId, itemId, "Item Link");
+
     return true;
 }
 
