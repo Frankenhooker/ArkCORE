@@ -1256,7 +1256,7 @@ bool Player::Create (uint32 guidlow, const std::string& name, uint8 race, uint8 
     // set starting level
     uint32 start_level = getClass() != CLASS_DEATH_KNIGHT ? sWorld->getIntConfig(CONFIG_START_PLAYER_LEVEL) : sWorld->getIntConfig(CONFIG_START_HEROIC_PLAYER_LEVEL);
 
-    if (GetSession()->GetSecurity() >= SEC_MODERATOR)
+    if (GetSession()->GetSecurity() >= SEC_TESTGAMEMASTER)
     {
         uint32 gm_level = sWorld->getIntConfig(CONFIG_START_GM_LEVEL);
         if (gm_level > start_level)

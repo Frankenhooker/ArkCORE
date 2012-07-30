@@ -4586,8 +4586,10 @@ bool ChatHandler::HandleServerPLimitCommand (const char *args)
 
         if (strncmp(param, "player", l) == 0)
             sWorld->SetPlayerSecurityLimit(SEC_PLAYER);
+        else if (strncmp(param, "vip", 1) == 0)
+            sWorld->SetPlayerSecurityLimit(SEC_VIP);
         else if (strncmp(param, "moderator", l) == 0)
-            sWorld->SetPlayerSecurityLimit(SEC_MODERATOR);
+            sWorld->SetPlayerSecurityLimit(SEC_TESTGAMEMASTER);
         else if (strncmp(param, "gamemaster", l) == 0)
             sWorld->SetPlayerSecurityLimit(SEC_GAMEMASTER);
         else if (strncmp(param, "administrator", l) == 0)
@@ -4615,8 +4617,11 @@ bool ChatHandler::HandleServerPLimitCommand (const char *args)
     case SEC_PLAYER:
         secName = "Player";
         break;
-    case SEC_MODERATOR:
-        secName = "Moderator";
+    case SEC_VIP:
+        secName = "VIP";
+        break;
+    case SEC_TESTGAMEMASTER:
+        secName = "Testgamemaster";
         break;
     case SEC_GAMEMASTER:
         secName = "Gamemaster";
@@ -5010,7 +5015,7 @@ bool ChatHandler::HandleInstanceSaveDataCommand (const char * /*args*/)
 bool ChatHandler::HandleGMListFullCommand (const char* /*args*/)
 {
     ///- Get the accounts with GM Level >0
-    QueryResult result = LoginDatabase.Query("SELECT a.username, aa.gmlevel FROM account a, account_access aa WHERE a.id=aa.id AND aa.gmlevel > 0");
+    QueryResult result = LoginDatabase.Query("SELECT a.username, aa.gmlevel FROM account a, account_access aa WHERE a.id=aa.id AND aa.gmlevel > 1");
     if (result)
     {
         SendSysMessage(LANG_GMLIST);
@@ -5022,7 +5027,18 @@ bool ChatHandler::HandleGMListFullCommand (const char* /*args*/)
         do
         {
             Field *fields = result->Fetch();
-            PSendSysMessage("|%15s|%6s|", fields[0].GetCString(), fields[1].GetCString());
+
+            /*
+                Be advised that this is a workaround due to an error with the gm level.
+                It happens when you try to get the value of fields[2] with GetCString.
+            */
+            // Start workaround
+            char clevel[10];
+            int32 level = fields[1].GetInt32();
+            itoa(level,clevel,10);
+            // End workaround
+
+            PSendSysMessage("|%15s|%6s|", fields[0].GetCString(), clevel);
         }
         while (result->NextRow());
 

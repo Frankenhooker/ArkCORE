@@ -53,7 +53,7 @@ public:
         { NULL, 0, false, NULL, "", NULL } };
         static ChatCommand accountCommandTable[] =
         {
-        { "addon", SEC_MODERATOR, false, &HandleAccountAddonCommand, "", NULL },
+        { "addon", SEC_ADMINISTRATOR, false, &HandleAccountAddonCommand, "", NULL },
         { "create", SEC_CONSOLE, true, &HandleAccountCreateCommand, "", NULL },
         { "delete", SEC_CONSOLE, true, &HandleAccountDeleteCommand, "", NULL },
         { "onlinelist", SEC_CONSOLE, true, &HandleAccountOnlineListCommand, "", NULL },

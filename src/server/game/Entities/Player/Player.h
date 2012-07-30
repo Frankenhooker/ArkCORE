@@ -1114,7 +1114,7 @@ public:
     void SetGameMaster (bool on);
     bool isGMChat () const
     {
-        return GetSession()->GetSecurity() >= SEC_MODERATOR && (m_ExtraFlags & PLAYER_EXTRA_GM_CHAT);
+        return GetSession()->GetSecurity() >= SEC_CONTENTTESTER && (m_ExtraFlags & PLAYER_EXTRA_GM_CHAT);
     }
     void SetGMChat (bool on)
     {
